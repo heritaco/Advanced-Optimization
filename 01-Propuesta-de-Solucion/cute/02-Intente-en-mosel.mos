@@ -1,0 +1,35 @@
+model "WarehouseLocation"
+
+uses "mmxprs"
+
+   declarations
+      Cities = 1..12
+      Demand: array(Cities) of real
+      Dist: array(Cities,Cities) of real
+      TransportCost: real
+      open: array(Cities) of mpvar
+      assign: array(Cities,Cities) of mpvar
+   end-declarations
+
+   initializations from "a.txt"
+      TransportCost
+      Ciudades
+      Demanda
+      Distancia
+   end-initializations
+
+   forall(i in Cities) sum(j in Cities) assign(i,j) = 1
+   forall(i,j in Cities) assign(i,j) <= open(j)
+
+   forall(i in Cities) open(i) is_binary
+   forall(i,j in Cities) assign(i,j) is_binary
+
+   minimize(Obj) = sum(i,j in Cities) Demand(i)*Dist(i,j)*TransportCost*assign(i,j)
+
+   solve
+
+   writeln("Optimal cost: ", getobjval)
+   forall(j in Cities) if getsol(open(j))>0.5 then
+      writeln("Open warehouse in city ", j)
+
+end-model
