@@ -1,6 +1,4 @@
-
-pip install ortools
-
+# pip install ortools
 
 from ortools.linear_solver import pywraplp
 
