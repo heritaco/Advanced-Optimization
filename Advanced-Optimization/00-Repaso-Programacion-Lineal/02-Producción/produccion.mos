@@ -1,0 +1,64 @@
+model produccion
+uses "mmxprs", "mmsystem"
+!uses "mmsheet" !incluye librerias de excel
+
+declarations
+	n: integer
+	m: integer
+end-declarations
+
+initializations from "datos_produccion.txt"
+n m
+end-initializations
+
+N:=1..n
+M:=1..m	
+
+declarations
+	t_r: array(M) of integer
+	t_p: integer
+	c: array(N) of real
+	A: array(M,N) of real
+	b: array(M) of real
+	x: array(N) of mpvar
+end-declarations
+
+initializations from "datos_produccion.txt" !permite acceder al docuemento datos de excel
+	c A b t_r t_p
+end-initializations
+
+
+!definicion de la funcion objetivo
+z:= sum(i in N) c(i)*x(i)
+
+!definicion de las restricciones
+forall(i in M)do
+	if(t_r(i) = 0)then
+		sum(j in N) A(i,j)*x(j) = b(i)
+	elif(t_r(i) = 1)then
+		sum(j in N) A(i,j)*x(j) >= b(i)
+	elif(t_r(i) = 2)then
+		sum(j in N) A(i,j)*x(j) <= b(i)
+	end-if
+end-do
+
+if(t_p = 1)then
+	maximize(z)
+elif(t_p = 2)then
+	minimize(z)
+end-if
+
+if(getprobstat=XPRS_INF)then
+	writeln(" ")
+	writeln("El problema es infactible")
+elif(getprobstat=XPRS_OPT)then
+	!impresion de datos o informacion al lector
+	writeln("El valor de la funcion objetivo es: ", getobjval)
+	writeln(" ")
+	forall(i in N)
+		writeln("El valor de la variable x(", i,") es ", getsol(x(i)))
+elif (getprobstat <> XPRS_OPT)then
+	writeln(" ")
+	writeln("El problema tiene solucion factible pero no es acotado")
+end-if
+end-model
