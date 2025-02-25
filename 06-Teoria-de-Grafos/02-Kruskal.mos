@@ -1,0 +1,91 @@
+!@encoding CP1252
+model Kruskal
+	forward procedure ReadDataFile(filename: string)
+	forward function argmin: integer
+	forward procedure UpdateF
+	
+	declarations
+		V: set of integer !Conjunto de vértices o nodos
+		edges=record  !Tipo de dato arista
+			i: integer !Primer nodo de la arista
+			j: integer !Segundo nodo de la arista
+			cost: real !Costo de la arista
+		end-record
+		E: dynamic array(range) of edges !Arreglo de las aristas del grafo
+		f: real !Valor de la función objetivo 
+		FeasibleSet: set of integer !Conjunto de elementos factibles
+		S: dynamic array(range) of edges !Aristas del árbol generador
+		filename: string !Nombre del archivo de datos
+		edgestar: integer !Índice de la arista seleccionada
+		Sedges: integer !Índice en el arreglo de aristas del árbol
+	end-declarations
+	
+	writeln("Data file name: ")
+	read(filename)
+	
+	ReadDataFile(filename)
+	
+	declarations
+		label: array(V) of integer !Arreglo de etiquetas de las componente conexas
+	end-declarations
+	
+	forall(i in V) label(i):=i
+	f:=0
+	FeasibleSet:={1..getsize(E)}
+	Sedges:=0
+	writeln("Aristas del árbol generador")
+	while(FeasibleSet <> {}) do
+		edgestar:=argmin
+		Sedges:=Sedges+1
+		S(Sedges):=E(edgestar)
+		writeln("{",S(Sedges).i,",",S(Sedges).j,"} con costo ",S(Sedges).cost)
+		f:=f+S(Sedges).cost
+		UpdateF
+	end-do
+	writeln("Objective function value: ", f)
+	
+	procedure ReadDataFile(f: string)
+		declarations
+			edge: edges !arista
+			nbedges: integer !número total de aristas
+		end-declarations
+		
+		fopen(f, F_INPUT)
+		nbedges:=0
+		while (not iseof) do
+			read(edge.i)
+			read(edge.j)
+			read(edge.cost)
+			nbedges:=nbedges+1
+			E(nbedges):=edge
+			V:=V+{edge.i,edge.j}
+		end-do
+	end-procedure
+	
+	function argmin: integer
+		mincost:=MAX_REAL
+		forall(k in FeasibleSet) do
+			if E(k).cost < mincost then
+				mincost:=E(k).cost
+				kstar:=k
+			end-if
+		end-do
+		returned:=kstar			
+	end-function
+	
+	procedure UpdateF
+		declarations
+			S: set of integer
+		end-declarations
+		l:=label(E(edgestar).j)
+		forall(j in V) do
+			if label(j)=l then
+				label(j):=label(E(edgestar).i)
+			end-if
+		end-do
+		S:=FeasibleSet
+		forall(k in S | label(E(k).i)=label(E(k).j)) FeasibleSet:=FeasibleSet-{k}
+	end-procedure
+	
+	
+end-model
