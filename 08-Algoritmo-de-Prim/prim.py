@@ -11,12 +11,12 @@ grafo = {
     8: [(9, 7),  (10, 9)],
     9: [(6, 10), (7, 4),  (8, 7)],
     10:[(8, 9),  (7, 8),  (2, 6), (12,8)],
-    11:[(5, 2),  (4, 1),  (2, 4)],
+    11:[(5, 2),  (4, 1),  (2, 4), (3, 1)],
     12:[(5, 15), (10, 8)]
 }
 
 valor_random = random.randint(0, len(grafo) - 1)
-nodo_inicial = list(grafo.keys())[valor_random]
+nodo_inicial = list(grafo.keys())[11]
 print(f'El nodo inicial es {nodo_inicial}')
 mst = []
 visitados = []
@@ -33,6 +33,8 @@ while len(visitados) < len(grafo):
     for arista in aristas:  
         if arista[0] < peso_minimo: 
             peso_minimo, u, v = arista  
+        if peso_minimo <= 1:
+            break
 
     aristas.remove((peso_minimo, u, v)) 
 
@@ -41,8 +43,7 @@ while len(visitados) < len(grafo):
         mst.append((u, v, peso_minimo)) 
 
         for vecino, p in grafo[v]:
-            if vecino not in visitados: 
-                aristas.append((p, v, vecino))  
+            aristas.append((p, v, vecino))  
 
 peso_total = 0
 
