@@ -1,7 +1,3 @@
-from google.colab import files
-
-uploaded = files.upload()
-
 def ReadDataFile(FileName):
     V = set()
     Edges = list()
@@ -16,7 +12,7 @@ def ReadDataFile(FileName):
                 V.add(int(j-1))
         return V, Edges
     except FileNotFoundError:
-        print(f'El archivo {File} no existe')
+        print(f'El archivo {FileName} no existe')
         quit()
 
 def argmin(Edges, FeasibleSet):
@@ -44,8 +40,7 @@ def UpdateFeasibleSet(V, Edges, FeasibleSet, label):
     print(S)
 
 def Run():
-    FileName = input("Archivo de datos: ")
-    V, Edges = ReadDataFile(FileName)
+    V, Edges = ReadDataFile(r'C:\Heri\GitHub\.Semester\Advanced-Optimization\06-Teoria-de-Grafos\03-MST01.txt')
     S = list()
     label=[j for j in V]
     f = 0.
