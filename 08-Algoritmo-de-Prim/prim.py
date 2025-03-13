@@ -1,52 +1,103 @@
 import random
 
-grafo = {}
+def ReadDataFile():
 
-with open(r'C:\Heri\GitHub\.Semester\Advanced-Optimization\08-Algoritmo-de-Prim\MST01.txt', 'r') as file:
-    for line in file:
-        u, v, w = map(int, line.split())
-        if u not in grafo:
-            grafo[u] = []
-        if v not in grafo:
-            grafo[v] = []
-        grafo[u].append((v, w))
-        grafo[v].append((u, w))
+    V = set()
+    visitados = set()
+    grafo = dict()
+    mst = list()
 
-valor_random = random.randint(0, len(grafo) - 1)
-nodo_inicial = list(grafo.keys())[valor_random]
-print(f'El nodo inicial es {nodo_inicial}')
-mst = []
-visitados = []
-aristas = []
+    FileName = r'C:\Heri\GitHub\.Semester\Advanced-Optimization\08-Algoritmo-de-Prim\MST01.txt'
 
-visitados.append(nodo_inicial)
+    try:
+        with open(FileName, 'r') as file:
+            for line in file:
 
-for vecino, peso in grafo[nodo_inicial]:    
-    arista = (peso, nodo_inicial, vecino)   
-    aristas.append(arista)
+                i, j, c = map(float, line.strip().split())
+                
+                i = int(i-1)
+                j = int(j-1)
+                
+                V.add(int(i))
+                V.add(int(j))
+                
+                if i not in grafo:
+                    grafo[i] = []
+                grafo[i].append((j, c))
+                
+                if j not in grafo:
+                    grafo[j] = []
+                grafo[j].append((i, c))
 
-while len(visitados) < len(grafo):
-    peso_minimo, u, v = aristas[0] 
-    for arista in aristas:  
-        if arista[0] < peso_minimo: 
-            peso_minimo, u, v = arista  
-        if peso_minimo <= 1:
-            break
+    except FileNotFoundError:
+        print(f'El archivo {FileName} no existe')
+        quit()
 
-    aristas.remove((peso_minimo, u, v)) 
+    return V, visitados, grafo, mst
 
-    if v not in visitados:
-        visitados.append(v) 
-        mst.append((u, v, peso_minimo)) 
 
-        for vecino, p in grafo[v]:
-            aristas.append((p, v, vecino))  
 
-peso_total = 0
+def EscogerNodoInicial(V): 
 
-print("Árbol de Expansión Mínimo:\n")
-for nodo_u, nodo_v, peso in mst:
-    print(f"{nodo_u} - {nodo_v}")
-    peso_total += sum({peso})
+    valor_random = random.randint(0, len(V)-1)   
+    nodo_inicial = list(V)[valor_random]
 
-print(f"\nPeso Total: {peso_total}")
+    return nodo_inicial
+
+
+    
+def Prim(V, visitados, grafo, mst, nodo_inicial):
+
+    visitados.add(nodo_inicial)
+
+    while len(visitados) < len(V):
+
+        peso_minimo = float('inf')
+        u = None
+        v = None
+
+        for nodo in visitados:
+            for vecino, peso in grafo[nodo]:
+                if vecino not in visitados:
+                    if peso < peso_minimo:
+                        u, v, peso_minimo = nodo, vecino, peso  
+                if peso_minimo <= 1:
+                    break
+
+        visitados.add(v)
+        mst.append((u, v, peso_minimo))
+
+    return mst
+
+
+
+def calcularPesoTotal(mst):
+
+    peso_total = 0
+    # es un _ porque no lo vamos a usar
+    for _, _, peso in mst:
+        peso_total += peso
+
+    return peso_total
+
+
+
+def imprimirMST(mst):
+
+    print("Árbol de Expansión Mínimo:\n")
+    for u, v, _ in mst:
+        print(f"{int(u+1)} - {int(v+1)}")
+
+    peso_total = calcularPesoTotal(mst)
+
+    print(f"\nPeso Total: {peso_total}")
+
+
+def Run():
+
+    V, visitados, grafo, mst = ReadDataFile()
+    nodo_inicial = EscogerNodoInicial(V)
+    mst = Prim(V, visitados, grafo, mst, nodo_inicial)
+    imprimirMST(mst)
+
+Run()
