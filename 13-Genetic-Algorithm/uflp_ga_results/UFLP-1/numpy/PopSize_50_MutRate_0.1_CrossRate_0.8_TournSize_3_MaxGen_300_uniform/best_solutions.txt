@@ -1,0 +1,8 @@
+
+Configuration: PopSize_50_MutRate_0.1_CrossRate_0.8_TournSize_3_MaxGen_300_uniform
+  Best Solution (Open Facilities): [11 15 19 26 40 44]
+  Best Cost: 31304.00
+
+Results saved to directory: uflp_ga_results
+
+Random seed used for reproducibility: 8
