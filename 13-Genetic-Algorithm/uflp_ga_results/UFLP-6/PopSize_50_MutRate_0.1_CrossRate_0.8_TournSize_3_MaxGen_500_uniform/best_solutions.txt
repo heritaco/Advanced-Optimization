@@ -1,0 +1,9 @@
+
+Configuration: PopSize_50_MutRate_0.1_CrossRate_0.8_TournSize_3_MaxGen_500_uniform
+  Best Solution (Open Facilities): [ 16  17  20  30  71  89  90  97 106 119 123 132 138 145 165 166 169 177
+ 178 186 209 222 224 229 232 234 236 238 239 249]
+  Best Cost: 259345.00
+
+Random seed used for reproducibility: 8
+
+Execution Time: 0.81 seconds

@@ -1,7 +1,7 @@
 Metric,Value
-Best Cost,30228.00
-Worst Cost,43186.00
-Mean Cost,38089.70
-Std Dev Cost,4064.11
-Mean Execution Time (s),0.42
-Percent Deviation (%),42.87
+Best Cost,23468.00
+Worst Cost,23468.00
+Mean Cost,23468.00
+Std Dev Cost,0.00
+Mean Execution Time (s),0.43
+Percent Deviation (%),0.00
