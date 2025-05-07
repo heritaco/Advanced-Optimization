@@ -1,0 +1,9 @@
+
+Configuracion: TamPob_321_TasaMut_0.6_TasaCruz_0.6_TamTorneo_16_MaxGen_1000_un_punto
+  Mejor Solucion (Instalaciones Abiertas): [ 10  12  17  25  27  47  51  71  86  97 106 119 130 131 132 137 145 161
+ 163 167 169 176 177 178 184 215 216 232 234 236 238 246 247]
+  Mejor Costo: 258051.00
+
+Semilla aleatoria utilizada para reproducibilidad: 8
+
+Tiempo de Ejecucion: 35.60 segundos

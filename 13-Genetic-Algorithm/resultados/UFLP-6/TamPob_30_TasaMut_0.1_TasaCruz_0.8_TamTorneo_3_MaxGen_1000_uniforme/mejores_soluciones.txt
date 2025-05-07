@@ -1,0 +1,9 @@
+
+Configuracion: TamPob_30_TasaMut_0.1_TasaCruz_0.8_TamTorneo_3_MaxGen_1000_uniforme
+  Mejor Solucion (Instalaciones Abiertas): [ 13  14  17  27  36  47  56  71  77  80  90  91  92  97  98 103 119 123
+ 132 145 155 164 166 176 178 180 184 210 229 232 233 234 245 248]
+  Mejor Costo: 259115.00
+
+Semilla aleatoria utilizada para reproducibilidad: 8
+
+Tiempo de Ejecucion: 1.11 segundos

@@ -1,0 +1,8 @@
+
+Configuracion: N=100, M=0, C=0, T=10, G=30, tc=un punto
+  Mejor Solucion (Instalaciones Abiertas): [15 25 33 44]
+  Mejor Costo: 30381.00
+
+Semilla aleatoria utilizada para reproducibilidad: 8
+
+Tiempo de Ejecucion: 0.04 segundos

@@ -16,7 +16,7 @@ def calcular_fitness_numba(indices_instalaciones_abiertas, costos_fijos, costos_
 
     costo_transporte = 0.0
     # Itera sobre cada cliente para encontrar el costo de transporte minimo desde una instalacion abierta.
-    for cliente in range(costos_transporte.shape[0]): # prange del paralelismo de nucleos!
+    for cliente in range(costos_transporte.shape[0]):
         costo_minimo = 1e10
         # Itera sobre los indices de las instalaciones abiertas para encontrar la instalacion mas cercana a este cliente.
         for indice_instalacion in indices_instalaciones_abiertas:
@@ -134,8 +134,6 @@ class UFLP_GA:
             return self._crossover_uniforme(padre1, padre2)
         elif self.tipo_crossover == 'un_punto':
             return self._crossover_un_punto(padre1, padre2)
-        else:
-            raise ValueError("Tipo de crossover desconocido")
 
     def _mutar(self, individuo):
         indices_mutados = list(individuo['solucion'])
