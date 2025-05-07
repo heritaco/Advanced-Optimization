@@ -1,3 +1,0 @@
-Configuration,Best Solution (Open Facilities),Best Cost,Execution Time (s),Number of Generations
-PopSize_50_MutRate_0.1_CrossRate_0.8_TournSize_3_MaxGen_300_uniform,"12, 15, 16, 34, 45",23468.0,0.20399069786071777,300
-PopSize_100_MutRate_0.2_CrossRate_0.7_TournSize_5_MaxGen_300_one_point,"12, 15, 16, 34, 45",23468.0,0.4460294246673584,300
