@@ -1,0 +1,8 @@
+
+Configuración: N=300, M=1, C=0.8, T=120, G=1000, tc=un punto, tm=mejor
+  Mejor Solución: [16, 4, 23, 27, 30]
+  Mejor Costo: 22119
+
+Semilla utilizada: 2
+
+Tiempo de Ejecución: 0.03027 segundos

@@ -1,0 +1,8 @@
+
+Configuración: N=177, M=0.71, C=0.51, T=18, G=1000, tc=uniforme, tm=mejor
+  Mejor Solución: [32, 10, 43, 13, 14]
+  Mejor Costo: 23468
+
+Semilla utilizada: 2
+
+Tiempo de Ejecución: 0.02333 segundos

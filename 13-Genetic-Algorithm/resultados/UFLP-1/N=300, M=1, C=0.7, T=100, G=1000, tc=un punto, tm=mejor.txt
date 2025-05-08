@@ -1,4 +1,0 @@
-Seed 0: Mejor Costo = 23468, Tiempo = 18.92618s, Generación Óptima = None
-Seed 0: Mejor Costo = 23468, Tiempo = 19.04366s, Generación Óptima = None
-Seed 1: Mejor Costo = 23468, Tiempo = 19.53877s, Generación Óptima = None
-Seed 2: Mejor Costo = 23468, Tiempo = 27.94464s, Generación Óptima = None

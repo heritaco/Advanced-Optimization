@@ -1,0 +1,9 @@
+Seed 2: Mejor Costo = 257626, Tiempo = 1.95739s, Generación Óptima = 848
+Seed 3: Mejor Costo = 257874, Tiempo = 2.33986s, Generación Óptima = None
+Seed 5: Mejor Costo = 257814, Tiempo = 2.30946s, Generación Óptima = None
+Seed 7: Mejor Costo = 257729, Tiempo = 2.35019s, Generación Óptima = None
+Seed 11: Mejor Costo = 257882, Tiempo = 2.31312s, Generación Óptima = None
+Seed 13: Mejor Costo = 257774, Tiempo = 2.31560s, Generación Óptima = None
+Seed 17: Mejor Costo = 257672, Tiempo = 2.28884s, Generación Óptima = None
+Seed 19: Mejor Costo = 257979, Tiempo = 2.26733s, Generación Óptima = None
+Seed 23: Mejor Costo = 257783, Tiempo = 2.28640s, Generación Óptima = None

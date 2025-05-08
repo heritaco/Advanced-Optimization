@@ -1,0 +1,12 @@
+Métrica,Valor
+Costo Objetivo,257896
+Mejor Costo,258792
+Error,896
+Error Relativo,0.003474
+Peor Costo,259484
+Costo Promedio,259053
+Desviación Estándar Costo,207.2915
+Tiempo Promedio de Ejecución,0.054869s
+Mejor Tiempo de Ejecución,0.044096s
+Desviación del Tiempo,0.008052 %
+Semilla Mejor Costo,3

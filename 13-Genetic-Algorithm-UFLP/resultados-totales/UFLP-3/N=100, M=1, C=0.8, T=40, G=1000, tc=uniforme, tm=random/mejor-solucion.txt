@@ -1,0 +1,8 @@
+
+Configuración: N=100, M=1, C=0.8, T=40, G=1000, tc=uniforme, tm=random
+  Mejor Solución: [32, 9, 47, 41]
+  Mejor Costo: 25038
+
+Semilla utilizada: 2
+
+Tiempo de Ejecución: 0.14258 segundos

@@ -1,1 +1,0 @@
-Seed 5: Mejor Costo = 258104, Tiempo = 29.93904s, Generación Óptima = None

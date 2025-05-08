@@ -1,0 +1,8 @@
+
+Configuración: N=100, M=1, C=0.8, T=40, G=1000, tc=uniforme, tm=random
+  Mejor Solución: [129, 130, 8, 138, 76, 84, 86, 23, 151, 153, 24, 87, 119, 94, 159, 95, 97, 98, 99, 100, 165, 105, 45, 240, 113, 112, 51, 183, 249]
+  Mejor Costo: 257639
+
+Semilla utilizada: 7
+
+Tiempo de Ejecución: 2.22830 segundos
