@@ -1,0 +1,8 @@
+
+Configuración: N=300, M=1, C=0.8, T=40, G=1000, tc=un punto, tm=mejor
+  Mejor Solución: [132, 136, 17, 31, 32, 160, 35, 165, 42, 171, 46, 48, 53, 58, 199, 75, 76, 208, 211, 212, 88, 216, 219, 222, 97, 226, 99, 227, 229, 249, 109, 241, 121]
+  Mejor Costo: 258104
+
+Semilla utilizada: 5
+
+Tiempo de Ejecución: 29.93904 segundos
