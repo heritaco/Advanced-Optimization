@@ -5,33 +5,29 @@ import time
 
 @njit
 def calcular_fitness_numba(indices_instalaciones_abiertas, costos_fijos, costos_transporte):
-    # Si no hay instalaciones abiertas, devuelve un costo muy alto para penalizar esta solucion.
     if indices_instalaciones_abiertas.size == 0:
-        return 1e10  # Alta penalizacion si no hay instalaciones abiertas
+        return np.int64(1e9)  # Penalización alta pero como entero
 
-    costo_fijo = 0.0
-    # Itera sobre los indices de las instalaciones abiertas y suma sus costos fijos.
+    costo_fijo = 0
     for indice in indices_instalaciones_abiertas:
-        costo_fijo += costos_fijos[indice]
+        costo_fijo += int(costos_fijos[indice])  # Asegurar entero
 
-    costo_transporte = 0.0
-    # Itera sobre cada cliente para encontrar el costo de transporte minimo desde una instalacion abierta.
+    costo_transporte = 0
     for cliente in range(costos_transporte.shape[0]):
-        costo_minimo = 1e10
-        # Itera sobre los indices de las instalaciones abiertas para encontrar la instalacion mas cercana a este cliente.
+        costo_minimo = 1e9  # Entero
         for indice_instalacion in indices_instalaciones_abiertas:
-            costo = costos_transporte[cliente, indice_instalacion]
-            # Si se encuentra un costo de transporte menor, actualiza el costo minimo.
+            costo = int(costos_transporte[cliente, indice_instalacion])
             if costo < costo_minimo:
                 costo_minimo = costo
-        costo_transporte += costo_minimo  # Acumula el costo de transporte minimo para este cliente.
+        costo_transporte += costo_minimo
 
-    return costo_fijo + costo_transporte  # Devuelve la suma del costo fijo total y el costo de transporte total.
+    return costo_fijo + costo_transporte
 
 class UFLP_GA:
     def __init__(self, n_instalaciones, n_clientes, costos_fijos, costos_transporte,
                  tamaño_poblacion=50, tasa_mutacion=0.1, tasa_crossover=0.8,
-                 tamaño_torneo=3, max_generaciones=100, tipo_crossover='uniforme'):
+                 tamaño_torneo=3, max_generaciones=100, tipo_crossover='uniforme', tipo_mutacion='random',
+                 random_seed=None, fitness_objetivo=None):
         self.n_instalaciones = n_instalaciones
         self.n_clientes = n_clientes
         self.costos_fijos = np.array(costos_fijos[1:])  # Ignorar el indice 0 porque los indices en Python empiezan desde 0.
@@ -42,14 +38,21 @@ class UFLP_GA:
         self.tamaño_torneo = tamaño_torneo
         self.max_generaciones = max_generaciones
         self.tipo_crossover = tipo_crossover
+        self.tipo_mutacion = tipo_mutacion
         self.poblacion = []
         self.generacion = 0
         self.mejor_solucion = None  # Almacenara los indices de las instalaciones abiertas
-        self.mejor_fitness = float('inf')  # Inicializar con un valor muy grande para asegurar que se encuentre un mejor valor.
+        self.mejor_fitness = np.int64(1e9)  # Inicializar con un valor muy grande para asegurar que se encuentre un mejor valor.
         self.historial_fitness = []
+        self.random_seed = random_seed
+        self.fitness_objetivo = fitness_objetivo  # Almacena el objetivo de fitness si se proporciona.
+
+        if self.random_seed is not None:
+            random.seed(self.random_seed)
+            np.random.seed(self.random_seed)  
 
     def _generar_individuo(self):
-        num_abiertas = random.randint(1, self.n_instalaciones)  # Elige un número aleatorio de instalaciones para abrir.
+        num_abiertas = np.random.randint(1, self.n_instalaciones)  # Elige un número aleatorio de instalaciones para abrir.
         indices_abiertos = np.sort(np.random.choice(self.n_instalaciones, size=num_abiertas, replace=False))  # Selecciona aleatoriamente instalaciones únicas.
         return {'solucion': indices_abiertos, 'fitness': None}  # Devuelve el individuo con la solucion y fitness sin calcular.
 
@@ -91,16 +94,16 @@ class UFLP_GA:
 
         # Itera sobre todas las instalaciones únicas abiertas por los padres.
         for indice_instalacion in union_conjunto:
-            if random.random() < 0.5:  # Decide aleatoriamente de qué padre hereda la instalacion.
+            if np.random.random() < 0.5:  # Decide aleatoriamente de qué padre hereda la instalacion.
                 descendiente1_indices.append(indice_instalacion)  # Agrega la instalacion al primer descendiente.
             else:
                 descendiente2_indices.append(indice_instalacion)  # Agrega la instalacion al segundo descendiente.
 
         # Asegurar que al menos una instalacion esté abierta
         if not descendiente1_indices:
-            descendiente1_indices.append(random.choice(list(union_conjunto)))
+            descendiente1_indices.append(np.random.choice(list(union_conjunto)))
         if not descendiente2_indices:
-            descendiente2_indices.append(random.choice(list(union_conjunto)))
+            descendiente2_indices.append(np.random.choice(list(union_conjunto)))
 
         # Devuelve los descendientes con las instalaciones abiertas y fitness sin calcular.
         return {'solucion': np.sort(np.array(list(descendiente1_indices))), 'fitness': None}, \
@@ -115,17 +118,17 @@ class UFLP_GA:
         if longitud1 < 2 or longitud2 < 2:
             return self._crossover_uniforme(padre1, padre2)  # Volver a uniforme si es demasiado corto
 
-        punto_crossover1 = random.randint(1, longitud1 - 1)
-        punto_crossover2 = random.randint(1, longitud2 - 1)
+        punto_crossover1 = np.random.randint(1, longitud1 - 1)
+        punto_crossover2 = np.random.randint(1, longitud2 - 1)
 
         descendiente1_indices = np.sort(np.concatenate((solucion1[:punto_crossover1], solucion2[punto_crossover2:])))
         descendiente2_indices = np.sort(np.concatenate((solucion2[:punto_crossover2], solucion1[punto_crossover1:])))
 
         # Asegurar que al menos una instalacion esté abierta
         if not descendiente1_indices.size:
-            descendiente1_indices = np.array([random.choice(np.concatenate((solucion1, solucion2)))])
+            descendiente1_indices = np.array([np.random.choice(np.concatenate((solucion1, solucion2)))])
         if not descendiente2_indices.size:
-            descendiente2_indices = np.array([random.choice(np.concatenate((solucion1, solucion2)))])
+            descendiente2_indices = np.array([np.random.choice(np.concatenate((solucion1, solucion2)))])
 
         return {'solucion': descendiente1_indices, 'fitness': None}, {'solucion': descendiente2_indices, 'fitness': None}
 
@@ -134,10 +137,8 @@ class UFLP_GA:
             return self._crossover_uniforme(padre1, padre2)
         elif self.tipo_crossover == 'un_punto':
             return self._crossover_un_punto(padre1, padre2)
-        else:
-            raise ValueError("Tipo de crossover desconocido")
 
-    def _mutar(self, individuo):
+    def _mutar_random(self, individuo):
         indices_mutados = list(individuo['solucion'])
         num_abiertas = len(indices_mutados)
 
@@ -158,6 +159,46 @@ class UFLP_GA:
                     indices_mutados[indice_eliminar] = indice_agregar
 
         return {'solucion': np.sort(np.array(indices_mutados)), 'fitness': None}
+    
+    def _mutar_mejor(self, individuo):
+        original_solucion = individuo['solucion']
+        original_fitness = self._calcular_fitness(individuo)
+        max_intentos = 10  # Número máximo de intentos de mutación
+
+        for _ in range(max_intentos):
+            indices_mutados = list(original_solucion.copy())
+            num_abiertas = len(indices_mutados)
+
+            if num_abiertas > 1 and random.random() < 0.33:  # Eliminar una instalación
+                indice_eliminar = random.randint(0, num_abiertas - 1)
+                indices_mutados.pop(indice_eliminar)
+            elif num_abiertas < self.n_instalaciones and random.random() < 0.66:  # Agregar una instalación
+                indices_cerradas = np.array([i for i in range(self.n_instalaciones) if i not in indices_mutados])
+                if indices_cerradas.size > 0:
+                    indice_agregar = random.choice(indices_cerradas)
+                    indices_mutados.append(indice_agregar)
+            elif num_abiertas > 0 and self.n_instalaciones > num_abiertas:  # Intercambiar una instalación
+                indice_eliminar = random.randint(0, num_abiertas - 1)
+                indices_cerradas = np.array([i for i in range(self.n_instalaciones) if i not in indices_mutados])
+                if indices_cerradas.size > 0:
+                    indice_agregar = random.choice(indices_cerradas)
+                    indices_mutados[indice_eliminar] = indice_agregar
+
+            indices_mutados = np.sort(np.array(indices_mutados))
+            fitness_mutado = self._calcular_fitness({'solucion': indices_mutados, 'fitness': None})
+
+            if fitness_mutado < original_fitness:
+                return {'solucion': indices_mutados, 'fitness': fitness_mutado}
+
+        # Si ningún intento mejora, devuelve el original con fitness actualizado
+        return {'solucion': original_solucion.copy(), 'fitness': original_fitness}
+    
+    def _mutar(self, individuo):
+        if self.tipo_mutacion == 'random':
+            return self._mutar_random(individuo)
+        elif self.tipo_mutacion == 'mejor':
+            return self._mutar_mejor(individuo)
+
 
     def _reemplazo(self, nueva_poblacion):
         for individuo in nueva_poblacion:
@@ -189,5 +230,10 @@ class UFLP_GA:
             self._evaluar_poblacion()
             self.historial_fitness.append(self.mejor_fitness)
 
+            generacion_opti = None
+            if self.fitness_objetivo is not None and self.mejor_fitness <= self.fitness_objetivo:
+                generacion_opti = generacion + 1
+                break
+            
         tiempo_fin = time.time()
-        return self.mejor_solucion, self.mejor_fitness, self.historial_fitness, tiempo_fin - tiempo_inicio, self.generacion + 1
+        return self.mejor_solucion, self.mejor_fitness, self.historial_fitness, tiempo_fin - tiempo_inicio, self.generacion + 1, generacion_opti

@@ -1,3 +1,5 @@
+# Es una funcion que carga los datos de un archivo
+
 def cargar_datos(file_name):
     with open(file_name, 'r') as f:
         lineas = f.readlines()
