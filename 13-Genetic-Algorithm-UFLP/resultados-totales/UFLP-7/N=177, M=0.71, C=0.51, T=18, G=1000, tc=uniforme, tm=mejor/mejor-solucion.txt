@@ -1,8 +1,0 @@
-
-Configuración: N=177, M=0.71, C=0.51, T=18, G=1000, tc=uniforme, tm=mejor
-  Mejor Solución: [2, 8, 138, 13, 142, 143, 19, 152, 156, 158, 30, 31, 159, 162, 34, 165, 166, 167, 168, 178, 53, 188, 192, 194, 207, 212, 220, 94, 225, 236, 114, 122]
-  Mejor Costo: 257983
-
-Semilla utilizada: 13
-
-Tiempo de Ejecución: 7.66009 segundos

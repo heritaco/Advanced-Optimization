@@ -1,8 +1,0 @@
-
-Configuración: N=100, M=0.8, C=0, T=10, G=300, tc=un punto, tm=random
-  Mejor Solución: [132, 136, 17, 32, 160, 35, 170, 171, 42, 48, 59, 193, 199, 203, 75, 206, 208, 211, 83, 212, 216, 226, 99, 227, 98, 229, 103, 110, 244, 117, 248, 249]
-  Mejor Costo: 258021
-
-Semilla utilizada: 7
-
-Tiempo de Ejecución: 0.46229 segundos
